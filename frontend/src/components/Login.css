@@ -45,30 +45,21 @@
     color: #1e293b;
 }
 
-
-
-.auth-nav {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 32px;
-}
-
-.auth-nav button {
-    background: #e0e7ff;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 18px;
-    font-size: 1rem;
-    color: #6366f1;
+.challenge-title {
+    font-size: 1.2rem;
     font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
+    color: #334155;
+    margin-bottom: 8px;
 }
 
-.auth-nav button:hover {
-    background: #6366f1;
-    color: #fff;
+.challenge-question {
+    font-size: 1.1rem;
+    color: #1e293b;
+    background: rgba(255,255,255,0.4);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    min-height: 0;
 }
 
 .login-form {
@@ -106,9 +97,14 @@
     box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
 }
 
-.login-form button:hover {
+.login-form button:hover:not(:disabled) {
     background: linear-gradient(90deg, #4338ca 0%, #2563eb 100%);
     box-shadow: 0 4px 16px rgba(99, 102, 241, 0.16);
+}
+
+.login-form button:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
 }
 
 .login-form input::placeholder {
@@ -116,11 +112,9 @@
     opacity: 1;
 }
 
-.auth-container p {
+.auth-message {
     margin-top: 18px;
     color: #ef4444;
     font-weight: 500;
     min-height: 24px;
 }
-  
-  

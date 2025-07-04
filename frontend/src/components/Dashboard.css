@@ -1,0 +1,180 @@
+:root {
+    --primary: #e4007c;
+    --accent:  #0090d1;
+    --dark:    #002b49;
+    --light:   #ffffff;
+    --bg-light: #f8f9fa;
+    --text-dark: #212529;
+    --text-muted: #6c757d;
+    --border-color: #dee2e6;
+}
+
+.dashboard-container {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    min-height: 100vh;
+}
+
+.dashboard-header {
+    background: var(--dark);
+    color: var(--light);
+    padding: 40px 60px;
+    text-align: center;
+}
+
+.dashboard-header h1 {
+    margin: 0 0 8px 0;
+    font-size: 2.5rem;
+}
+
+.dashboard-main {
+    padding: 40px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.dashboard-section {
+    margin-bottom: 40px;
+    padding: 30px;
+    background: var(--light);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.bookings-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 16px;
+    background: #f8f9fa;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.booking-id {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.card-content {
+    padding: 16px;
+}
+
+.card-content p {
+    margin: 0 0 12px 0;
+}
+
+.access-code {
+    font-family: monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    background: #e9ecef;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.past-bookings ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.past-bookings li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.past-bookings li:last-child {
+    border-bottom: none;
+}
+
+/* --- Buttons --- */
+.btn-primary {
+    display: inline-block;
+    background: var(--primary);
+    color: var(--light);
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s;
+    border: 2px solid var(--primary);
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    display: inline-block;
+    background: transparent;
+    color: var(--accent);
+    padding: 8px 20px;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+    border: 2px solid var(--accent);
+    cursor: pointer;
+}
+.btn-secondary:hover {
+    background: var(--accent);
+    color: var(--light);
+}
+
+.btn-feedback {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-decoration: none;
+}
+.btn-feedback:hover {
+    text-decoration: underline;
+}
+
+/* --- Chatbot Widget --- */
+.chatbot-widget {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: var(--accent);
+    color: var(--light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.chatbot-widget:hover {
+    transform: scale(1.1);
+}
+.chatbot-widget svg {
+    width: 32px;
+    height: 32px;
+}
