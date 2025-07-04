@@ -1,32 +1,32 @@
 import React from 'react';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+
+// ----- screens -----
+import Home from './components/Home';
 import Register from './components/Register';
 import Login from './components/Login';
 import ConfirmAccount from './components/ConfirmAccount';
 import Dashboard from './components/Dashboard';
 
+/**
+ * App‑level router.  We intentionally removed the old navigation bar and
+ * heading so that the landing page (Home) renders edge‑to‑edge.
+ */
 export default function App() {
-  const location = useLocation();
-  const hideNav = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/confirm';
-  const hideHeading = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/confirm';
   return (
-    <div style={{ padding: '2rem' }}>
-      {!hideHeading && <h1>DALScooter Auth</h1>}
-      {!hideNav && (
-        <nav style={{ marginBottom: '1rem' }}>
-          <Link to="/login"><button>Login</button></Link>
-          <Link to="/register"><button>Register</button></Link>
-          <Link to="/confirm"><button>Confirm Email</button></Link>
-          <Link to="/dashboard"><button>Dashboard</button></Link>
-        </nav>
-      )}
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/confirm" element={<ConfirmAccount />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
-    </div>
+      <div className="app-shell">
+        <Routes>
+          {/* Public marketing page */}
+          <Route path="/" element={<Home />} />
+
+          {/* Auth flow */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/confirm" element={<ConfirmAccount />} />
+
+          {/* Protected area */}
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </div>
   );
 }
