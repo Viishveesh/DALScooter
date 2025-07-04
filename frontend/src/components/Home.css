@@ -10,7 +10,7 @@
 .home { color: var(--dark); }
 
 /* ─── Nav ─────────────────────────────────────────── */
-.btn {                       /* shared base class */
+.btn {
     display: inline-block; padding: 8px 24px; border-radius: 999px;
     font-weight: 600; text-decoration: none; transition: background .2s, color .2s;
 }
@@ -19,9 +19,8 @@
     padding: 12px 20px; background: var(--light); position: sticky; top: 0; z-index: 10;
     box-shadow: 0 1px 4px rgba(0,0,0,.05);
 }
-.logo img { height: 80px; }
+.logo img { height: 48px; }
 
-/* ADDED - Add flexbox and gap to space out nav buttons */
 .navbar nav {
     display: flex;
     align-items: center;
@@ -29,23 +28,18 @@
 }
 
 .book-btn {
-    display: inline-block; border: 2px solid var(--primary); color: var(--primary);
-    padding: 8px 24px; border-radius: 999px; font-weight: 600; text-decoration: none;
-    transition: background .2s,color .2s;
+    border: 2px solid var(--primary); color: var(--primary);
 }
 .book-btn:hover { background: var(--primary); color: var(--light); }
 
 .login-btn {
-    display:inline-block; border:2px solid var(--accent); color:var(--accent);
-    padding:8px 24px; border-radius:999px; font-weight:600; text-decoration:none;
-    transition:background .2s,color .2s;
+    border: 2px solid var(--accent); color: var(--accent);
 }
-.login-btn:hover { background:var(--accent); color:var(--light); }
+.login-btn:hover { background: var(--accent); color: var(--light); }
 
 
 /* ─── Hero ────────────────────────────────────────── */
 .hero {
-    /* CHANGED - Set background position to just 'center' for better framing */
     height: 80vh; background: url('../assets/hero.jpg') center/cover no-repeat;
     display: flex; align-items: flex-end; position: relative;
 }
@@ -83,15 +77,26 @@
 }
 .secondary-btn:hover { background:var(--accent); color:var(--light); }
 
-/* ─── Location / Map ─────────────────────────────── */
-.find-us { padding:60px 20px; text-align:center; max-width:700px; margin:0 auto; }
-.find-us h2 { margin-bottom:20px; }
-.find-us p  { line-height:1.6; margin-bottom:24px; }
-.map-placeholder { padding:0 20px 60px; display:flex; justify-content:center; }
+/* START: MODIFIED STYLES FOR HORIZONTAL LAYOUT */
+.location-instagram-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Aligns items to the top */
+    flex-wrap: wrap; /* Allows items to stack on smaller screens */
+    gap: 40px;
+    padding: 60px 20px;
+}
+.location-content, .instagram {
+    flex: 1; /* Each item takes up equal space */
+    min-width: 320px; /* Minimum width before wrapping */
+    max-width: 600px; /* Maximum width on large screens */
+    text-align: center;
+}
+/* REMOVE padding from individual sections, as the wrapper now handles it */
+.find-us { padding: 0; }
+.map-placeholder { padding: 0; }
 .map-placeholder img { width:100%; max-width:600px; border-radius:12px; }
-
-/* ─── Instagram / Testimonials ───────────────────── */
-.instagram, .testimonials { padding:60px 20px; text-align:center; }
+.instagram { padding: 0; }
 
 .insta-carousel img {
     width: 100%;
@@ -100,17 +105,43 @@
     margin-top: 24px;
     margin-bottom: 24px;
 }
+/* END: MODIFIED STYLES */
 
-.testimonial-card {
-    margin:0 auto; width:100%; max-width:600px; height:240px;
-    border:2px dashed var(--accent); border-radius:12px;
-    display:flex; align-items:center; justify-content:center; color:var(--accent);
+
+/* START: MODIFIED TESTIMONIALS STYLES */
+.testimonials { padding: 60px 20px 100px; text-align:center; }
+
+.testimonial-cards {
+    margin-top: 32px;
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-.testimonials { padding-bottom:100px; }
+.testimonial-card {
+    background: var(--light);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.05);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+.testimonial-card p {
+    font-style: italic;
+    color: #444;
+    flex-grow: 1; /* Pushes footer to the bottom */
+    margin-bottom: 16px;
+}
+.testimonial-card footer {
+    font-weight: 600;
+    color: var(--dark);
+    text-align: right;
+}
+/* END: MODIFIED TESTIMONIALS STYLES */
+
 .footer { background:var(--dark); color:var(--light); text-align:center; padding:20px; font-size:.8rem; }
 
-/* ─── Medium-plus screens ────────────────────────── */
 @media (min-width:768px) {
     .hero { align-items:center; }
     .hero .overlay { padding:0 60px; }
