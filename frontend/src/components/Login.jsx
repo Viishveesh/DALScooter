@@ -13,40 +13,17 @@ const poolData = {
   ClientId: import.meta.env.VITE_COGNITO_USER_POOL_CLIENT_ID,
 };
 
-// --- Helper function for Caesar Cipher (placeholder) ---
-// In a real app, the backend would provide the shifted text and expect the original.
-// Here, we'll simulate it on the front-end for UI purposes.
-const caesarCipher = (str, amount) => {
-  if (amount < 0) return caesarCipher(str, amount + 26);
-  let output = '';
-  for (let i = 0; i < str.length; i++) {
-    let c = str[i];
-    if (c.match(/[a-z]/i)) {
-      let code = str.charCodeAt(i);
-      if (code >= 65 && code <= 90) { // Uppercase
-        c = String.fromCharCode(((code - 65 + amount) % 26) + 65);
-      } else if (code >= 97 && code <= 122) { // Lowercase
-        c = String.fromCharCode(((code - 97 + amount) % 26) + 97);
-      }
-    }
-    output += c;
-  }
-  return output;
-};
-
-
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [step, setStep] = useState(1); // 1: password, 2: security Q&A, 3: caesar
+  const [step, setStep] = useState(1);
   const [session, setSession] = useState(null);
   const [challengeParam, setChallengeParam] = useState({});
-  const [answer, setAnswer] = useState(''); // For both Q&A and Caesar
+  const [answer, setAnswer] = useState('');
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // This will now handle submissions for all steps
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -54,50 +31,44 @@ export default function Login() {
 
     try {
       if (step === 1) {
-        // Step 1: Initial Password Auth, then start custom flow
-        await initiateUserPasswordAuth();
+        // This is the single entry point for the entire login flow.
+        await initiateAuth();
       } else {
-        // Steps 2 & 3: Respond to custom challenges
+        // This handles all subsequent MFA steps.
         await sendChallengeAnswer();
       }
     } catch (err) {
-      setMessage(err.message || 'An error occurred.');
-      // Keep loading false if error happens here so user can retry
+      console.error('Authentication Error:', err);
+      setMessage(err.message || 'An unknown error occurred.');
       setIsLoading(false);
     }
   };
 
-  const initiateUserPasswordAuth = async () => {
-    // This function remains the same, it's the first gate.
-    try {
-      const authCommand = new InitiateAuthCommand({
-        AuthFlow: 'USER_PASSWORD_AUTH',
-        ClientId: poolData.ClientId,
-        AuthParameters: { USERNAME: email, PASSWORD: password }
-      });
-      await cognitoClient.send(authCommand);
-      // If password is correct, immediately start the custom auth flow for MFA
-      await initiateCustomAuth();
-    } catch (err) {
-      console.error('Initial auth failed:', err);
-      setMessage(err.message || 'Login failed. Check your email and password.');
-      setIsLoading(false);
-    }
-  };
-
-  const initiateCustomAuth = async () => {
-    // This function will trigger the *first* custom challenge (Q&A)
-    const customAuthCommand = new InitiateAuthCommand({
+  // This is the corrected login initiation function.
+  const initiateAuth = async () => {
+    const authCommand = new InitiateAuthCommand({
+      // The AuthFlow now starts with CUSTOM_AUTH, matching the final Terraform config.
       AuthFlow: 'CUSTOM_AUTH',
       ClientId: poolData.ClientId,
-      AuthParameters: { USERNAME: email }
+      AuthParameters: {
+        USERNAME: email,
+        PASSWORD: password, // The password is now sent as part of the initial custom flow.
+      },
     });
-    const response = await cognitoClient.send(customAuthCommand);
 
-    setSession(response.Session);
-    setChallengeParam(response.ChallengeParameters || {});
-    setStep(2); // Move to Q&A step
-    setIsLoading(false); // Ready for user input
+    const response = await cognitoClient.send(authCommand);
+
+    // After password verification, Cognito will return our first custom challenge.
+    if (response.ChallengeName === 'CUSTOM_CHALLENGE') {
+      setSession(response.Session);
+      setChallengeParam(response.ChallengeParameters || {});
+      setStep(2); // Move to MFA Step 1 (Security Question)
+    } else {
+      // This path is for other potential states, like forcing a new password.
+      // For this project, it indicates an unexpected state.
+      setMessage(`Unsupported authentication flow: ${response.ChallengeName}. Please contact support.`);
+    }
+    setIsLoading(false);
   };
 
   const sendChallengeAnswer = async () => {
@@ -105,28 +76,21 @@ export default function Login() {
       ChallengeName: 'CUSTOM_CHALLENGE',
       ClientId: poolData.ClientId,
       ChallengeResponses: { USERNAME: email, ANSWER: answer },
-      Session: session
+      Session: session,
     });
+
     const response = await cognitoClient.send(respondCommand);
 
-    setAnswer(''); // Clear answer for next step
+    setAnswer('');
 
+    // Check if Cognito has issued another challenge (the Caesar Cipher).
     if (response.ChallengeName === 'CUSTOM_CHALLENGE') {
-
-      // --- START: TEMPORARY MOCK DATA ---
-      const challengeParameters = response.ChallengeParameters || {};
-      if (!challengeParameters.clue) {
-        challengeParameters.clue = "Decrypt the word: KDOLID["; // Mocked Caesar for HALIFAX
-      }
-      // --- END: TEMPORARY MOCK DATA ---
-
       setSession(response.Session);
-      // Use our modified object instead of the direct response
-      setChallengeParam(challengeParameters);
-      setStep(3);
+      setChallengeParam(response.ChallengeParameters || {});
+      setStep(3); // Move to the final factor step.
       setIsLoading(false);
     } else {
-      // Auth complete
+      // If no more challenges, authentication is complete.
       const token = response.AuthenticationResult.IdToken;
       localStorage.setItem('token', token);
       localStorage.setItem('userEmail', email);
@@ -141,44 +105,23 @@ export default function Login() {
         return (
             <>
               <h3 className="challenge-title">Security Question</h3>
-              <p className="challenge-question">{challengeParam.question || 'Loading question...'}</p>
-              <input
-                  placeholder="Your Answer"
-                  value={answer}
-                  onChange={(e) => setAnswer(e.target.value)}
-                  autoFocus
-              />
+              <p className="challenge-question">{challengeParam.question || 'Loading...'}</p>
+              <input placeholder="Your Answer" value={answer} onChange={(e) => setAnswer(e.target.value)} autoFocus />
             </>
         );
       case 3: // Caesar Cipher
         return (
             <>
               <h3 className="challenge-title">Final Factor</h3>
-              <p className="challenge-question">{challengeParam.clue || 'Loading clue...'}</p>
-              <input
-                  placeholder="Decrypted Word"
-                  value={answer}
-                  onChange={(e) => setAnswer(e.target.value)}
-                  autoFocus
-              />
+              <p className="challenge-question">{challengeParam.clue || 'Loading...'}</p>
+              <input placeholder="Decrypted Word" value={answer} onChange={(e) => setAnswer(e.target.value)} autoFocus />
             </>
         );
       default: // Step 1: Email and Password
         return (
             <>
-              <input
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={isLoading}
-              />
-              <input
-                  placeholder="Password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  disabled={isLoading}
-              />
+              <input placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={isLoading} />
+              <input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} disabled={isLoading} />
             </>
         );
     }

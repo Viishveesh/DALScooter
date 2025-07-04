@@ -4,21 +4,14 @@ provider "aws" {
 
 data "aws_caller_identity" "current" {}
 
-# Data source to package Question-Answer Lambda
+# Data source to package the single Custom Auth Lambda
 data "archive_file" "question_answer_lambda_zip" {
   type        = "zip"
-  source_file = "${path.module}/../lambdas/question_answer_lambda.py"
-  output_path = "${path.module}/../lambdas/question_answer_lambda.zip"
+  source_file = "${path.module}/../lambdas/custom_auth_handler.py"
+  output_path = "${path.module}/../lambdas/custom_auth_handler.zip"
 }
 
-# Data source to package Caesar Cipher Lambda
-data "archive_file" "caesar_cipher_lambda_zip" {
-  type        = "zip"
-  source_file = "${path.module}/../lambdas/caesar_cipher_lambda.py"
-  output_path = "${path.module}/../lambdas/caesar_cipher_lambda.zip"
-}
-
-# Lambda: store_qa_lambda
+# Data source to package store_qa_lambda
 data "archive_file" "store_qa_lambda_zip" {
   type        = "zip"
   source_file = "${path.module}/../lambdas/store_qa_lambda.py"
@@ -77,8 +70,9 @@ resource "aws_cognito_user_pool_client" "dalscooter_client" {
   name         = "DALScooterClient"
   user_pool_id = aws_cognito_user_pool.dalscooter_user_pool.id
 
+  # --- THIS IS THE CRITICAL FIX ---
+  # By removing "ALLOW_USER_PASSWORD_AUTH", we force Cognito to use our custom flow.
   explicit_auth_flows = [
-    "ALLOW_USER_PASSWORD_AUTH",
     "ALLOW_CUSTOM_AUTH",
     "ALLOW_REFRESH_TOKEN_AUTH"
   ]
@@ -100,12 +94,12 @@ resource "aws_cognito_user_group" "bike_franchise" {
   precedence   = 2
 }
 
-# Question-Answer Lambda Function
+# The single, consolidated Custom Auth Lambda
 resource "aws_lambda_function" "custom_auth_lambda" {
   filename      = data.archive_file.question_answer_lambda_zip.output_path
   function_name = "DALScooterCustomAuthLambda"
   role          = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/LabRole"
-  handler       = "question_answer_lambda.lambda_handler"
+  handler       = "custom_auth_handler.lambda_handler"
   runtime       = "python3.9"
   timeout       = 30
 
@@ -118,36 +112,11 @@ resource "aws_lambda_function" "custom_auth_lambda" {
   depends_on = [data.archive_file.question_answer_lambda_zip]
 }
 
-# Caesar Cipher Lambda Function
-resource "aws_lambda_function" "caesar_cipher_lambda" {
-  filename      = data.archive_file.caesar_cipher_lambda_zip.output_path
-  function_name = "DALScooterCaesarCipherLambda"
-  role          = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/LabRole"
-  handler       = "caesar_cipher_lambda.handler"
-  runtime       = "python3.9"
-  timeout       = 30
-
-  environment {
-    variables = {
-      DYNAMODB_TABLE = aws_dynamodb_table.dalscooter_users.name
-    }
-  }
-
-  depends_on = [data.archive_file.caesar_cipher_lambda_zip]
-}
-
+# Permission for Cognito to invoke our single custom auth lambda
 resource "aws_lambda_permission" "allow_cognito_custom_auth" {
   statement_id  = "AllowExecutionFromCognitoCustomAuth"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.custom_auth_lambda.function_name
-  principal     = "cognito-idp.amazonaws.com"
-  source_arn    = aws_cognito_user_pool.dalscooter_user_pool.arn
-}
-
-resource "aws_lambda_permission" "cognito_invoke_caesar_cipher" {
-  statement_id  = "AllowCognitoInvokeCaesarCipher"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.caesar_cipher_lambda.function_name
   principal     = "cognito-idp.amazonaws.com"
   source_arn    = aws_cognito_user_pool.dalscooter_user_pool.arn
 }
@@ -170,15 +139,6 @@ resource "aws_apigatewayv2_stage" "default_stage" {
   api_id      = aws_apigatewayv2_api.dalscooter_http_api.id
   name        = "$default"
   auto_deploy = true
-}
-
-# Lambda Permission for API Gateway HTTP
-resource "aws_lambda_permission" "api_gateway_invoke" {
-  statement_id  = "AllowAPIGatewayInvoke"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.custom_auth_lambda.function_name
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_apigatewayv2_api.dalscooter_http_api.execution_arn}/*/*"
 }
 
 resource "aws_lambda_function" "store_qa_lambda" {
