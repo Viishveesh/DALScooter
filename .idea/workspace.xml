@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="27388b0e-e4d6-48f6-8dde-f5f962824c14" name="Changes" comment="login test cypher">
+    <list default="true" id="27388b0e-e4d6-48f6-8dde-f5f962824c14" name="Changes" comment="login cypher issue fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/auth-module/lambdas/caesar_cipher_lambda.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/auth-module/lambdas/question_answer_lambda.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/auth-module/terraform/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/backend/auth-module/terraform/main.tf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +70,7 @@
       <workItem from="1751597366097" duration="1133000" />
       <workItem from="1751598520260" duration="682000" />
       <workItem from="1751599216050" duration="5697000" />
-      <workItem from="1751618649115" duration="10838000" />
+      <workItem from="1751618649115" duration="11835000" />
     </task>
     <task id="LOCAL-00001" summary="asdasd">
       <option name="closed" value="true" />
@@ -155,7 +152,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751627014910</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="login cypher issue fixed">
+      <option name="closed" value="true" />
+      <created>1751630092867</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1751630092867</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,6 +171,7 @@
     <MESSAGE value="initial commit" />
     <MESSAGE value="ui changes" />
     <MESSAGE value="login test cypher" />
-    <option name="LAST_COMMIT_MESSAGE" value="login test cypher" />
+    <MESSAGE value="login cypher issue fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="login cypher issue fixed" />
   </component>
 </project>

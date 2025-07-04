@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 
 // Mock data to simulate user's bookings
@@ -10,7 +10,7 @@ const mockBookings = {
         model: 'City-Cruiser X',
         startTime: '10:00 AM',
         endTime: '5:00 PM',
-        accessCode: '****', // Masked until requested
+        accessCode: '****',
     },
     past: [
         { id: 'BK654321', type: 'Gyroscooter', date: '2024-07-15', status: 'Completed' },
@@ -31,12 +31,26 @@ const ChatbotWidget = () => (
 export default function Dashboard() {
     const [userBookings] = useState(mockBookings);
     const email = localStorage.getItem('userEmail');
+    const navigate = useNavigate();
+
+    // ADDED: Logout functionality
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userEmail');
+        navigate('/login');
+    };
 
     return (
         <div className="dashboard-container">
+            {/* CHANGED: Header now includes logo and logout */}
             <header className="dashboard-header">
-                <h1>Welcome, {email}</h1>
-                <p>Manage your bookings and explore DAL Scooter services.</p>
+                <div className="logo">
+                    <img src="/assets/logo.png" alt="DAL Scooter logo" />
+                </div>
+                <nav className="dashboard-nav">
+                    <span>{email}</span>
+                    <button onClick={handleLogout} className="btn-logout">Logout</button>
+                </nav>
             </header>
 
             <main className="dashboard-main">
