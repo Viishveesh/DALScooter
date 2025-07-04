@@ -4,7 +4,8 @@ import {
   InitiateAuthCommand,
   RespondToAuthChallengeCommand
 } from '@aws-sdk/client-cognito-identity-provider';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import './Login.css';
 
 const cognitoClient = new CognitoIdentityProviderClient({ region: import.meta.env.VITE_AWS_REGION });
 
@@ -23,6 +24,11 @@ export default function Login() {
   const [challengeAnswer, setChallengeAnswer] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    initiateUserPasswordAuth();
+  };
 
   const initiateUserPasswordAuth = async () => {
     try {
@@ -104,34 +110,29 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <div className="auth-container">
       <h2>Login</h2>
-
-      {step === 1 && (
-        <div>
-          <input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
-          <input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} />
-          <button onClick={initiateUserPasswordAuth}>Login</button>
-        </div>
-      )}
-
-      {step > 1 && (
-        <div>
-          <p>
-            {
-              challengeParam?.question
-                ? `Security Question: ${challengeParam.question}`
-                : challengeParam?.cipherText
-                ? `Decrypt this: ${challengeParam.cipherText}`
-                : "Awaiting next challenge..."
-            }
-          </p>
-          <input placeholder="Your Answer" value={challengeAnswer} onChange={e => setChallengeAnswer(e.target.value)} />
-          <button onClick={sendChallengeAnswer}>Submit</button>
-        </div>
-      )}
-
+      <form className="login-form" onSubmit={handleSubmit}>
+        <input
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          placeholder="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit">Login</button>
+      </form>
       <p>{message}</p>
+      <div style={{ marginTop: '18px', fontSize: '1.05rem' }}>
+        Don't have an account?{' '}
+        <Link to="/register" style={{ color: '#fff', fontWeight: 600, textDecoration: 'underline', cursor: 'pointer' }}>
+          Register
+        </Link>
+      </div>
     </div>
   );
 }

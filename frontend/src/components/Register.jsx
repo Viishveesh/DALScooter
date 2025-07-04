@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Register.css';
 import {
   CognitoUserPool
 } from 'amazon-cognito-identity-js';
@@ -46,12 +47,12 @@ export default function Register() {
   };
 
   return (
-    <div>
+    <div className="auth-container">
       <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
+      <form className="login-form" onSubmit={handleSubmit}>
         <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <select value={question} onChange={(e) => setQuestion(e.target.value)} required>
+        <select value={question} onChange={(e) => setQuestion(e.target.value)} required style={{padding: '18px 21px', borderRadius: '8px', fontSize: '1.3rem', border: '1.5px solid #cbd5e1', background: '#f1f5f9', marginBottom: '8px'}}>
           <option value="">Select a security question</option>
           <option value="What is your favorite color?">What is your favorite color?</option>
           <option value="What was your first pet's name?">What was your first pet's name?</option>
@@ -61,7 +62,7 @@ export default function Register() {
         <input placeholder="Security Answer" value={answer} onChange={(e) => setAnswer(e.target.value)} />
         <button type="submit">Register</button>
       </form>
-      <p>{message}</p>
+      <p className={`message${message.includes('successful') ? ' message-success' : message ? ' message-error' : ''}`}>{message}</p>
     </div>
   );
 }
