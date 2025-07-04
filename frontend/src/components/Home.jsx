@@ -86,7 +86,7 @@ export default function Home() {
             <section className="instagram">
                 <h2>Check Out our Instagram</h2>
                 <div className="insta-carousel">
-                    <div className="carousel-placeholder">[Instagram feed placeholder]</div>
+                    <img src="/assets/instagram-placeholder.jpg" alt="Instagram placeholder" />
                 </div>
                 <a href="https://instagram.com/dalscooter" target="_blank" rel="noopener noreferrer" className="secondary-btn">
                     View on Instagram

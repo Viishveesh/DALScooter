@@ -31,14 +31,16 @@ export default function ConfirmAccount() {
   };
 
   return (
-    <div className="auth-container">
-      <h2>Confirm Your Email</h2>
-      <form className="login-form" onSubmit={handleConfirm}>
-        <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input placeholder="Confirmation Code" value={code} onChange={(e) => setCode(e.target.value)} />
-        <button type="submit">Confirm</button>
-      </form>
-      <p className={`message${message.includes('successfully') ? ' message-success' : message ? ' message-error' : ''}`}>{message}</p>
-    </div>
+      <div className="auth-page-background"> {/* ADD THIS WRAPPER */}
+        <div className="auth-container">
+          <h2>Confirm Your Email</h2>
+          <form className="login-form" onSubmit={handleConfirm}>
+            <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input placeholder="Confirmation Code" value={code} onChange={(e) => setCode(e.target.value)} />
+            <button type="submit">Confirm</button>
+          </form>
+          <p className={`message${message.includes('successfully') ? ' message-success' : message ? ' message-error' : ''}`}>{message}</p>
+        </div>
+      </div>
   );
 }

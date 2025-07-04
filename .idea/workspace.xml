@@ -6,6 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="27388b0e-e4d6-48f6-8dde-f5f962824c14" name="Changes" comment="initial commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/ConfirmAccount.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ConfirmAccount.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Home.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Home.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Home.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Login.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Register.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +75,7 @@
       <workItem from="1751597366097" duration="1133000" />
       <workItem from="1751598520260" duration="682000" />
       <workItem from="1751599216050" duration="5697000" />
-      <workItem from="1751618649115" duration="603000" />
+      <workItem from="1751618649115" duration="3001000" />
     </task>
     <task id="LOCAL-00001" summary="asdasd">
       <option name="closed" value="true" />
@@ -87,7 +93,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751605027510</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="initial commit">
+      <option name="closed" value="true" />
+      <created>1751619586057</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1751619586057</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

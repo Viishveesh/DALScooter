@@ -110,29 +110,31 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-container">
-      <h2>Login</h2>
-      <form className="login-form" onSubmit={handleSubmit}>
-        <input
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          placeholder="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Login</button>
-      </form>
-      <p>{message}</p>
-      <div style={{ marginTop: '18px', fontSize: '1.05rem' }}>
-        Don't have an account?{' '}
-        <Link to="/register" style={{ color: '#fff', fontWeight: 600, textDecoration: 'underline', cursor: 'pointer' }}>
-          Register
-        </Link>
+      <div className="auth-page-background"> {/* ADD THIS WRAPPER */}
+        <div className="auth-container">
+          <h2>Login</h2>
+          <form className="login-form" onSubmit={handleSubmit}>
+            <input
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+                placeholder="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            <button type="submit">Login</button>
+          </form>
+          <p>{message}</p>
+          <div style={{ marginTop: '18px', fontSize: '1.05rem' }}>
+            Don't have an account?{' '}
+            <Link to="/register" style={{ color: '#fff', fontWeight: 600, textDecoration: 'underline', cursor: 'pointer' }}>
+              Register
+            </Link>
+          </div>
+        </div>
       </div>
-    </div>
   );
 }

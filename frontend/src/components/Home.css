@@ -19,12 +19,19 @@
     padding: 12px 20px; background: var(--light); position: sticky; top: 0; z-index: 10;
     box-shadow: 0 1px 4px rgba(0,0,0,.05);
 }
-.logo img { height: 36px; }
+.logo img { height: 80px; }
+
+/* ADDED - Add flexbox and gap to space out nav buttons */
+.navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .book-btn {
     display: inline-block; border: 2px solid var(--primary); color: var(--primary);
     padding: 8px 24px; border-radius: 999px; font-weight: 600; text-decoration: none;
     transition: background .2s,color .2s;
-    @apply btn border-2 border-primary text-primary;
 }
 .book-btn:hover { background: var(--primary); color: var(--light); }
 
@@ -32,13 +39,13 @@
     display:inline-block; border:2px solid var(--accent); color:var(--accent);
     padding:8px 24px; border-radius:999px; font-weight:600; text-decoration:none;
     transition:background .2s,color .2s;
-    @apply btn border-2 border-accent text-accent;
 }
 .login-btn:hover { background:var(--accent); color:var(--light); }
 
 
 /* ─── Hero ────────────────────────────────────────── */
 .hero {
+    /* CHANGED - Set background position to just 'center' for better framing */
     height: 80vh; background: url('../assets/hero.jpg') center/cover no-repeat;
     display: flex; align-items: flex-end; position: relative;
 }
@@ -85,11 +92,21 @@
 
 /* ─── Instagram / Testimonials ───────────────────── */
 .instagram, .testimonials { padding:60px 20px; text-align:center; }
-.carousel-placeholder, .testimonial-card {
+
+.insta-carousel img {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 12px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+.testimonial-card {
     margin:0 auto; width:100%; max-width:600px; height:240px;
     border:2px dashed var(--accent); border-radius:12px;
     display:flex; align-items:center; justify-content:center; color:var(--accent);
 }
+
 .testimonials { padding-bottom:100px; }
 .footer { background:var(--dark); color:var(--light); text-align:center; padding:20px; font-size:.8rem; }
 
