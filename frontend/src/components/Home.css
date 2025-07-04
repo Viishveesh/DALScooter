@@ -27,29 +27,44 @@
     gap: 12px;
 }
 
-.book-btn {
-    border: 2px solid var(--primary); color: var(--primary);
-}
+.book-btn { border: 2px solid var(--primary); color: var(--primary); }
 .book-btn:hover { background: var(--primary); color: var(--light); }
 
-.login-btn {
-    border: 2px solid var(--accent); color: var(--accent);
-}
+.login-btn { border: 2px solid var(--accent); color: var(--accent); }
 .login-btn:hover { background: var(--accent); color: var(--light); }
 
 
 /* ─── Hero ────────────────────────────────────────── */
 .hero {
     height: 80vh; background: url('../assets/hero.jpg') center/cover no-repeat;
-    display: flex; align-items: flex-end; position: relative;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    justify-content: flex-end;
 }
 .hero::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,.25); }
 .hero .overlay {
-    position: relative; padding: 0 20px 60px; max-width: 420px; color: var(--light);
+    position: relative; padding: 0 60px 60px; max-width: 520px; color: var(--light);
 }
+.hero .overlay h1 { font-size: 2.8rem; }
+.hero .overlay p { font-size: 1.1rem; }
+
 .primary-btn {
     display:inline-block; margin-top:16px; background:var(--primary); color:var(--light);
-    padding:10px 24px; border-radius:999px; font-weight:600; text-decoration:none;
+    border: 2px solid var(--primary);
+    border-radius:999px; font-weight:600; text-decoration:none;
+    padding: 14px 32px;
+    font-size: 1.1rem;
+    transition: background .2s, color .2s;
+}
+
+.location-content .primary-btn {
+    background: transparent;
+    color: var(--primary);
+}
+.location-content .primary-btn:hover {
+    background: var(--primary);
+    color: var(--light);
 }
 
 /* ─── Tours ───────────────────────────────────────── */
@@ -67,82 +82,69 @@
     display:flex; flex-direction:column; text-align:center;
 }
 .card:hover { transform:translateY(-4px); }
-.card img { width:100%; height:180px; object-fit:cover; }
+.card img { width:100%; height:220px; object-fit:cover; }
 .card h4 { margin:16px 0 8px; font-size:1.125rem; }
 .card p  { padding:0 16px; font-size:.9rem; color:#444; flex-grow:1; }
+
 .secondary-btn {
     display:inline-block; margin:16px 0 20px; border:2px solid var(--accent); color:var(--accent);
-    padding:8px 24px; border-radius:999px; font-weight:600; text-decoration:none;
+    border-radius:999px; font-weight:600; text-decoration:none;
     transition:background .2s,color .2s;
+    /* CHANGED: Reduced horizontal padding to make button narrower */
+    padding: 8px 16px;
 }
 .secondary-btn:hover { background:var(--accent); color:var(--light); }
 
-/* START: MODIFIED STYLES FOR HORIZONTAL LAYOUT */
+/* ─── Location / Instagram ───────────────────────── */
 .location-instagram-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Aligns items to the top */
-    flex-wrap: wrap; /* Allows items to stack on smaller screens */
-    gap: 40px;
-    padding: 60px 20px;
+    display: flex; justify-content: center; align-items: flex-start;
+    flex-wrap: wrap; gap: 40px; padding: 60px 20px;
 }
 .location-content, .instagram {
-    flex: 1; /* Each item takes up equal space */
-    min-width: 320px; /* Minimum width before wrapping */
-    max-width: 600px; /* Maximum width on large screens */
+    flex: 1; min-width: 320px; max-width: 600px;
     text-align: center;
 }
-/* REMOVE padding from individual sections, as the wrapper now handles it */
 .find-us { padding: 0; }
-.map-placeholder { padding: 0; }
-.map-placeholder img { width:100%; max-width:600px; border-radius:12px; }
-.instagram { padding: 0; }
-
-.insta-carousel img {
-    width: 100%;
-    max-width: 600px;
-    border-radius: 12px;
-    margin-top: 24px;
+.find-us h2 { margin-bottom: 28px; }
+.find-us p {
     margin-bottom: 24px;
 }
-/* END: MODIFIED STYLES */
 
+.map-placeholder { padding: 0; margin-bottom: 24px; }
+.map-placeholder img { width:100%; max-width:600px; border-radius:12px; }
 
-/* START: MODIFIED TESTIMONIALS STYLES */
+.instagram { padding: 0; }
+.insta-carousel img {
+    width: 100%; max-width: 600px; border-radius: 12px;
+    margin-top: 24px; margin-bottom: 24px;
+}
+
+/* ─── Testimonials ───────────────────────────────── */
 .testimonials { padding: 60px 20px 100px; text-align:center; }
-
 .testimonial-cards {
-    margin-top: 32px;
-    display: grid;
-    gap: 24px;
+    margin-top: 32px; display: grid; gap: 24px;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
-
 .testimonial-card {
-    background: var(--light);
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 4px 12px rgba(0,0,0,.05);
-    text-align: left;
-    display: flex;
-    flex-direction: column;
+    background: var(--light); border-radius: 16px; padding: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.05); text-align: left;
+    display: flex; flex-direction: column;
 }
 .testimonial-card p {
-    font-style: italic;
-    color: #444;
-    flex-grow: 1; /* Pushes footer to the bottom */
-    margin-bottom: 16px;
+    font-style: italic; color: #444; flex-grow: 1; margin-bottom: 16px;
 }
 .testimonial-card footer {
-    font-weight: 600;
-    color: var(--dark);
-    text-align: right;
+    font-weight: 600; color: var(--dark); text-align: right;
 }
-/* END: MODIFIED TESTIMONIALS STYLES */
 
+/* ─── Footer & Media Queries ──────────────────────── */
 .footer { background:var(--dark); color:var(--light); text-align:center; padding:20px; font-size:.8rem; }
 
 @media (min-width:768px) {
-    .hero { align-items:center; }
-    .hero .overlay { padding:0 60px; }
+    .hero {
+        align-items: center;
+    }
+    .hero .overlay {
+        padding-bottom: 0;
+    }
 }
