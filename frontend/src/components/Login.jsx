@@ -13,11 +13,12 @@ const poolData = {
   ClientId: import.meta.env.VITE_COGNITO_USER_POOL_CLIENT_ID,
 };
 
-console.log('Cognito ClientId:', import.meta.env.VITE_COGNITO_USER_POOL_CLIENT);
+console.log('Cognito ClientId:', import.meta.env.VITE_COGNITO_USER_POOL_CLIENT_ID);
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [step, setStep] = useState(1);
   const [session, setSession] = useState(null);
   const [challengeParam, setChallengeParam] = useState({});
@@ -120,12 +121,60 @@ export default function Login() {
         />
         <input
           placeholder="Password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <button
+          type="button"
+          onClick={() => setShowPassword((prev) => !prev)}
+          style={{ marginBottom: '12px', marginTop: '-8px', alignSelf: 'flex-end', background: 'none', border: 'none', color: '#fff', cursor: 'pointer', fontSize: '0.98rem', padding: '0 12px' }}
+        >
+          {showPassword ? 'Hide Password' : 'Show Password'}
+        </button>
         <button type="submit">Login</button>
       </form>
+      {step > 1 && (
+        <div style={{ marginTop: '24px' }}>
+          <p style={{ color: '#1e293b', fontWeight: 600 }}>
+            {challengeParam?.question ? (
+              <>
+                <span>Security Question:</span> <br />
+                <em>{challengeParam.question}</em>
+              </>
+            ) : challengeParam?.cipherText ? (
+              <>
+                <span>Decode the secret word below:</span> <br />
+                <code style={{
+                  background: '#f1f5f9',
+                  padding: '8px 12px',
+                  borderRadius: '6px',
+                  display: 'inline-block',
+                  marginTop: '8px',
+                  fontSize: '1.2rem'
+                }}>
+                  {challengeParam.cipherText}
+                </code>
+                <br />
+                <span style={{ fontSize: '0.95rem', color: '#475569', marginTop: '6px', display: 'inline-block' }}>
+                  (Hint: It's encoded using Caesar Cipher with a shift of 3)
+                </span>
+              </>
+            ) : (
+              '' // empty"
+            )}
+          </p>
+          <input
+            placeholder="Your Answer"
+            value={challengeAnswer}
+            onChange={(e) => setChallengeAnswer(e.target.value)}
+            className="login-form-input"
+          />
+          <button type="button" onClick={sendChallengeAnswer} className="login-form-button">
+            Submit
+          </button>
+        </div>
+      )}
       <p>{message}</p>
       <div style={{ marginTop: '18px', fontSize: '1.05rem' }}>
         Don't have an account?{' '}
