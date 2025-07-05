@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Dashboard.css';
+// --- ADDED: Import the new modal component ---
+import VirtualAssistantModal from './VirtualAssistantModal';
 
-// Mock data to simulate user's bookings
+// Mock data remains the same...
 const mockBookings = {
     current: {
         id: 'BK789123',
@@ -18,9 +20,9 @@ const mockBookings = {
     ]
 };
 
-// Placeholder Chatbot Component
-const ChatbotWidget = () => (
-    <div className="chatbot-widget">
+// --- MODIFIED: The ChatbotWidget now handles opening the modal ---
+const ChatbotWidget = ({ onOpen }) => (
+    <div className="chatbot-widget" onClick={onOpen}>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.006 3 12c0 2.252.992 4.312 2.624 5.793.12.1.206.222.252.355l.375 1.5a.75.75 0 0 0 .938.649l1.791-.896a8.25 8.25 0 0 0 1.026-.524" />
         </svg>
@@ -30,10 +32,12 @@ const ChatbotWidget = () => (
 
 export default function Dashboard() {
     const [userBookings] = useState(mockBookings);
+    // --- ADDED: State to control the chat modal ---
+    const [isChatOpen, setIsChatOpen] = useState(false);
+
     const email = localStorage.getItem('userEmail');
     const navigate = useNavigate();
 
-    // ADDED: Logout functionality
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userEmail');
@@ -42,7 +46,6 @@ export default function Dashboard() {
 
     return (
         <div className="dashboard-container">
-            {/* CHANGED: Header now includes logo and logout */}
             <header className="dashboard-header">
                 <div className="logo">
                     <img src="/assets/logo.png" alt="DAL Scooter logo" />
@@ -54,6 +57,7 @@ export default function Dashboard() {
             </header>
 
             <main className="dashboard-main">
+                {/* ... The rest of the dashboard sections remain unchanged ... */}
                 <section className="dashboard-section reserve-section">
                     <h2>Ready for a new adventure?</h2>
                     <p>Explore Halifax with our fun and eco-friendly scooters.</p>
@@ -63,25 +67,18 @@ export default function Dashboard() {
                 <section className="dashboard-section">
                     <h2>My Bookings</h2>
                     <div className="bookings-layout">
-                        {/* Current Booking Card */}
-                        {userBookings.current ? (
-                            <div className="card booking-card current-booking">
-                                <div className="card-header">
-                                    <h3>Current Booking</h3>
-                                    <span className="booking-id">ID: {userBookings.current.id}</span>
-                                </div>
-                                <div className="card-content">
-                                    <p><strong>Type:</strong> {userBookings.current.type} ({userBookings.current.model})</p>
-                                    <p><strong>Usage Time:</strong> {userBookings.current.startTime} - {userBookings.current.endTime}</p>
-                                    <p><strong>Access Code:</strong> <span className="access-code">{userBookings.current.accessCode}</span></p>
-                                    <button className="btn-secondary" onClick={() => alert('Virtual assistant would retrieve your code.')}>Reveal Code</button>
-                                </div>
+                        <div className="card booking-card current-booking">
+                            <div className="card-header">
+                                <h3>Current Booking</h3>
+                                <span className="booking-id">ID: {userBookings.current.id}</span>
                             </div>
-                        ) : (
-                            <p>You have no active bookings.</p>
-                        )}
-
-                        {/* Past Bookings List */}
+                            <div className="card-content">
+                                <p><strong>Type:</strong> {userBookings.current.type} ({userBookings.current.model})</p>
+                                <p><strong>Usage Time:</strong> {userBookings.current.startTime} - {userBookings.current.endTime}</p>
+                                <p><strong>Access Code:</strong> <span className="access-code">{userBookings.current.accessCode}</span></p>
+                                <button className="btn-secondary" onClick={() => alert('Virtual assistant would retrieve your code.')}>Reveal Code</button>
+                            </div>
+                        </div>
                         <div className="card booking-card past-bookings">
                             <div className="card-header">
                                 <h3>Booking History</h3>
@@ -107,7 +104,11 @@ export default function Dashboard() {
                 </section>
             </main>
 
-            <ChatbotWidget />
+            {/* --- MODIFIED: Pass the open handler to the widget --- */}
+            <ChatbotWidget onOpen={() => setIsChatOpen(true)} />
+
+            {/* --- ADDED: Conditionally render the modal --- */}
+            {isChatOpen && <VirtualAssistantModal onClose={() => setIsChatOpen(false)} />}
         </div>
     );
 }

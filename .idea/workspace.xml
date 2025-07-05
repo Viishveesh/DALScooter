@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="27388b0e-e4d6-48f6-8dde-f5f962824c14" name="Changes" comment="login cypher issue fixed">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/VirtualAssistantModal.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/VirtualAssistantModal.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Reserve.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Reserve.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +73,8 @@
       <workItem from="1751597366097" duration="1133000" />
       <workItem from="1751598520260" duration="682000" />
       <workItem from="1751599216050" duration="5697000" />
-      <workItem from="1751618649115" duration="11835000" />
+      <workItem from="1751618649115" duration="12795000" />
+      <workItem from="1751673314385" duration="783000" />
     </task>
     <task id="LOCAL-00001" summary="asdasd">
       <option name="closed" value="true" />
@@ -160,7 +164,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751630092867</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="login cypher issue fixed">
+      <option name="closed" value="true" />
+      <created>1751631287722</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1751631287722</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
